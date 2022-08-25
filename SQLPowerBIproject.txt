@@ -1,0 +1,63 @@
+# Develop a Database to Analyze & Visualize Hotel Booking Data
+# Build a visual data story or dashboard using Power BI to present to your stakeholders.
+
+# Questions to be amswered -
+1. "Is our hotel revenue growing by year?" (We have two hotel types so it would be good to segment revenue by hotel type.)
+2. "Should we increase our parking lot size?►(We want to understand if there is a trend is guest with personal cars.)
+3. "What trends can we see in the data?" (Focus on average daily rate and guests to explore seasonality.)
+
+# What we are going to do - hotel data we are going to source from a database that we will create uploading excel sheets to
+  create a databse, we will connect this database to powerBI and answer some business questions and have a visual product at the end.
+
+# Steps :-
+1. Build a database (using MS SQL Server Studio) 
+2. Develop the SQL Query for required data
+3. Connect PowerBI to the database
+4. Visualize the data
+5. Summarize the findings
+
+
+--SQL CODE for analysing data
+# making one file from all 3 different indual files
+
+with hotels as(
+ select * from dbo.['2018$']
+ union
+ select * from dbo.[*2019$']
+ union
+ select *  from dbo.[*2020$'])
+         
+
+# is our hotel revenue(both hotels revenue) growing in year
+making hotel revenue column
+
+select 
+	arrival_date_year,
+	hotel,
+	round(sum((stays_in_week_nights+stays_in_weekend_nights)*adr)2) as revenue 
+	from hotels
+	group by arrival_date_year, hotel
+
+# Meal cost in the segment cost, join the market segment table to hotels table in a new column maket_segment
+
+  select from hotels
+  left join dbo.market_segment$
+  on hotels.market_segment = market_segment$.market_segment
+  left join dbo.meal_cost$
+  on meal_cost$.meal =hotels.meal
+
+
+SQL code is ready for all the questions we have to answer so now 
+we will connect the PowerBI to our SQL server to impoert the data we have driven
+
+# Now we will build visuals of given data to answer the question we have
+1. Revenue , Average of Adr, total nights, average if discount in percentage, required car parking spaces
+2. Graph of revenue by reservation_status_date and can be viewed for different countries for different hotels 
+3. Graphs for Average of Adr, total nights, average if discount in percentage, required car parking spaces with date
+   percentage of revenue for each hotels
+4. Year and hotel vise table of revenue, required car parking spaces, parking percentage
+   at last put a date slider for investigation
+
+
+
+
